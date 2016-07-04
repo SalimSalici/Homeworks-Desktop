@@ -3,7 +3,8 @@
 		"slim/slim": "*",
 		"slim/twig-view": "*",
 		"illuminate/database": "^5.2",
-		"respect/validation": "^1.1"
+		"respect/validation": "^1.1",
+		"slim/csrf": "^0.7.0"
 	},
 
 	"autoload": {

@@ -35,6 +35,16 @@ $container["validator"] = function($container) {
 
 v::with("App\\Validation\\Rules\\");
 
+// Setting up CSRF
+$container["csrf"] = function($container) {
+    return new \Slim\Csrf\Guard;
+};
+
+// Setting up Auth
+$container["auth"] = function($container) {
+    return new \App\Auth\Auth;
+};
+
 // Setting up Controllers
 $container["HomeController"] = function($container) {
 	return new \App\Controllers\HomeController($container);

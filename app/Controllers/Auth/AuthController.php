@@ -8,6 +8,23 @@ use Respect\Validation\Validator as v;
 
 class AuthController extends Controller {
 
+	public function getSignIn($request, $response) {
+		return $this->view->render($response, "auth/signin.html.twig");
+	}
+
+	public function postSignIn($request, $response) {
+
+		$validation = $this->validator->validate($request, [
+			"email" => v::notEmpty()->email(),
+			"password" => v::notEmpty()
+		]);
+
+		if ($validation->failed()) {
+			return $response->withRedirect($this->router->pathFor("auth.signin"));			
+		}
+
+	}
+
 	public function getSignUp($request, $response) {
 		return $this->view->render($response, "auth/signup.html.twig");
 	}
