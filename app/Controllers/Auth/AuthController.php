@@ -20,9 +20,28 @@ class AuthController extends Controller {
 		]);
 
 		if ($validation->failed()) {
-			return $response->withRedirect($this->router->pathFor("auth.signin"));			
+			return $response->withRedirect($this->router->pathFor("auth.signin"));		
 		}
 
+		$auth = $this->auth->attempt(
+			$request->getParam("email"),
+			$request->getParam("password")
+		);
+
+		if (!$auth) {
+			// TODO: Flash message
+			return $response->withRedirect($this->router->pathFor("auth.signin"));
+		}
+
+		return $response->withRedirect($this->router->pathFor("home"));
+
+	}
+
+	public function getSignOut($request, $response) {
+
+		$this->auth->logout();
+		return $response->withRedirect($this->router->pathFor("home"));
+		
 	}
 
 	public function getSignUp($request, $response) {
@@ -45,14 +64,19 @@ class AuthController extends Controller {
 		$email = $request->getParam("email");
 		$name = $request->getParam("name");
 		$surname = $request->getParam("surname");
-		$password = password_hash($request->getParam("password"), PASSWORD_DEFAULT);
+		$password = $request->getParam("password");
 
 		$user = User::create([
 			"email" => $email,
 			"name" => $name,
 			"surname" => $surname,
-			"password" => $password
+			"password" => password_hash($password, PASSWORD_DEFAULT)
 		]);
+
+		$auth = $this->auth->attempt(
+			$user->email,
+			$password
+		);
 
 		return $response->withRedirect($this->router->pathFor("home"));
 

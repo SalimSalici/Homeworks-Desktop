@@ -6,4 +6,6 @@ $app->add(new \App\Middlewares\OldInputMiddleware($container));
 
 $app->add(new \App\Middlewares\CsrfViewMiddleware($container));
 
+$app->add(new \App\Middlewares\UserAuthMiddleware($container));
+
 $app->add($container->csrf);
