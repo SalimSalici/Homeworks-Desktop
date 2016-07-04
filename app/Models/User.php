@@ -18,4 +18,12 @@ class User extends Model {
 		"updated_at"
 	];
 
+	public function setPassword($password) {
+
+		$this->update([
+			"password" => password_hash($password, PASSWORD_DEFAULT)
+		]);
+
+	}
+
 }

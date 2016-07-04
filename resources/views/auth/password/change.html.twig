@@ -1,6 +1,6 @@
 {% extends "templates/app.html.twig" %}
 
-{% block title %}Sign in{% endblock %}
+{% block title %}Change password{% endblock %}
 
 {% block content %}
 
@@ -10,22 +10,22 @@
 			
 			<div class="panel panel-default">
 				
-				<div class="panel-heading">Sign in</div>
+				<div class="panel-heading">Change password</div>
 
 				<div class="panel-body">
 					
-					<form action="{{ path_for("auth.signin") }}" method="POST">
+					<form action="{{ path_for("auth.password.change") }}" method="POST">
 
-						<div class="form-group {{ errors.email ? 'has-error' : '' }}">
+						<div class="form-group {{ errors.password_old ? 'has-error' : '' }}">
 							
-							<label for="email">Email</label>
-							<input class="form-control" type="email" name="email" id="email" placeholder="Email" value="{{ oldInput.email }}">
+							<label for="password_old">Current password</label>
+							<input class="form-control" type="password" name="password_old" id="password_old" placeholder="Current password">
 
-							{% if errors.email %}
+							{% if errors.password_old %}
 								<span class="help-block">
 									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 
-									{{ errors.email | first }}
+									{{ errors.password_old | first }}
 								</span>
 							{% endif %}
 
@@ -46,7 +46,10 @@
 
 						</div>
 
-						<button class="btn btn-default" type="submit">Sign In!</button>
+
+						<button class="btn btn-default" type="submit">
+							Change passowrd!
+						</button>
 
 						{{ csrfInputs | raw }}
 
