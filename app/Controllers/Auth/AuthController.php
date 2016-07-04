@@ -29,7 +29,7 @@ class AuthController extends Controller {
 		);
 
 		if (!$auth) {
-			// TODO: Flash message
+			$this->flash->addMessage("error", "Email and password don't match.");
 			return $response->withRedirect($this->router->pathFor("auth.signin"));
 		}
 
@@ -41,7 +41,7 @@ class AuthController extends Controller {
 
 		$this->auth->logout();
 		return $response->withRedirect($this->router->pathFor("home"));
-		
+
 	}
 
 	public function getSignUp($request, $response) {
@@ -72,6 +72,8 @@ class AuthController extends Controller {
 			"surname" => $surname,
 			"password" => password_hash($password, PASSWORD_DEFAULT)
 		]);
+
+		$this->flash->addMessage("info", "You have been signed up.");
 
 		$auth = $this->auth->attempt(
 			$user->email,

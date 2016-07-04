@@ -45,6 +45,11 @@ $container["auth"] = function($container) {
     return new \App\Auth\Auth;
 };
 
+// Setting up Flash
+$container["flash"] = function($container) {
+    return new \Slim\Flash\Messages;
+};
+
 // Setting up Controllers
 $container["HomeController"] = function($container) {
 	return new \App\Controllers\HomeController($container);
