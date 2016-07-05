@@ -10,10 +10,17 @@
 	<!-- BOOTSTRAP -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-	<style>
+	<!-- CUSTOM -->
+	{% block cssImports %}
 
+		<link rel="stylesheet" href="css/app.css">
+
+	{% endblock %}
+
+	<style>
+		
 		body {
-			padding-top: 80px;
+			padding-top: {% block paddingTop %}80{% endblock %}px;
 		}
 
 	</style>
@@ -22,12 +29,18 @@
 <body>
 
 	{% include "templates/partials/header.html.twig" %}
-	
-	<div class="container">
-		{% include "templates/partials/flash.html.twig" %}
+
+	<div class="verticalWrapper">
 		
-		{% block content %}{% endblock %}
-	</div>
+		{% block beforeContent %}{% endblock %}
+
+		<div class="container">
+			{% include "templates/partials/flash.html.twig" %}
+			
+			{% block content %}{% endblock %}
+		</div>	
+
+	</div>	
 
 	{% include "templates/partials/footer.html.twig" %}
 

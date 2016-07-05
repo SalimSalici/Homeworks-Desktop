@@ -1,7 +1,85 @@
 {% extends "templates/app.html.twig" %}
 
-{% block content %}
+{% block title %}Home{% endblock %}
 
-	Home
+{% block cssImports %}
+
+	{{ parent() }}
+
+	<link rel="stylesheet" href="css/home.css">
+
+{% endblock %}
+
+{% block paddingTop %}50{% endblock %}
+
+{% block beforeContent %}
+	{% if not auth.check %}
+
+		<div id="heroHeader" class="jumbotron panel panel-default">
+
+			<div class="container">
+	 
+				<h1>Homeworks</h1>
+				<h2><i>Share your homeworks with your schoolmates</i></h2>
+				<p>
+					<a href="#" class="btn btn-info btn-large">Learn more</a>
+					<a href="{{ path_for("auth.signin") }}" class="btn btn-primary btn-large">Sign in</a>
+				</p>
+
+			</div>
+
+		</div>
+
+	{% endif %}
+{% endblock %}
+
+
+{% block content %}
+	
+	<div class="page-header">
+		<h1>
+			Welcome to Homeworks!
+			<small>Start sharing your homeworks now</small>
+		</h1>
+	</div>
+
+	<div class="row" style="padding-top:30px">
+		
+		<div class="col-md-4 col-md-offset-2">
+			<a href="#">
+				<div class="well well-lg text-center">
+					<h1>
+						<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+						<br>
+						<small>Join class</small>
+					</h1>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-md-4">
+			<a href="#">
+				<div class="well well-lg text-center">
+					<h1>
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						<br>
+						<small>Add class</small>
+					</h1>
+				</div>
+			</a>
+		</div>
+
+	</div>
+
+	{% if auth.check %}
+		
+		<div class="page-header">
+			<h1>
+				Yout classes
+				<small>Here's what you gotta do</small>
+			</h1>
+		</div>
+
+	{% endif %}
 
 {% endblock %}

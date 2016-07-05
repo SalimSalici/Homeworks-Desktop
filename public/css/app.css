@@ -1,0 +1,26 @@
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	padding-top: 50px;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a:focus {
+	text-decoration: none;
+}
+
+.verticalWrapper {
+	min-height: 100%;
+}
+
+.footer {
+    margin-top: 40px;
+    margin-bottom: 0;
+    padding: 60px 0;
+}
