@@ -46,7 +46,8 @@
 
 						</div>
 
-						<button class="btn btn-default" type="submit">Sign In!</button>
+						<button class="btn btn-primary push-right" type="submit">Sign In!</button>
+						<a href="{{ path_for('auth.signup') }}" class="btn btn-info pull-right">Register</a>
 
 						{{ csrfInputs | raw }}
 
