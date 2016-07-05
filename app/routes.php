@@ -26,4 +26,8 @@ $app->group("", function() {
 
 	$this->post("/password/change", "PasswordController:postChangePassword");
 
+	$this->get("/class/create", "ClassController:getCreateClass")->setName("class.create");
+
+	$this->post("/class/create", "ClassController:postCreateClass");
+
 })->add(new AuthMiddleware($container));

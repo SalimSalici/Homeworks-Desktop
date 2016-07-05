@@ -58,7 +58,7 @@
 		</div>
 
 		<div class="col-md-4">
-			<a href="#">
+			<a href="{{ path_for("class.create") }}">
 				<div class="well well-lg text-center">
 					<h1>
 						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -75,10 +75,30 @@
 		
 		<div class="page-header">
 			<h1>
-				Yout classes
+				Your classes
 				<small>Here's what you gotta do</small>
 			</h1>
 		</div>
+
+		{% if userClasses is defined %}
+
+			<div class="row">
+
+			{% for class in userClasses %}
+
+				<a href="#">
+					<div class="col-md-4">
+						<div class="well well-sm">
+							<span>{{ class.name }}</span>
+						</div>
+					</div>
+				</a>
+
+			{% endfor %}
+
+			</div>
+
+		{% endif %}
 
 	{% endif %}
 

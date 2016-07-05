@@ -1,0 +1,102 @@
+{% extends "templates/app.html.twig" %}
+
+{% block title %}Create class{% endblock %}
+
+{% block styleImports %}
+
+	#radioBtn .notActive{
+	    color: #3276b1;
+	    background-color: #fff;
+	}
+
+{% endblock %}
+
+{% block content %}
+
+
+	<div class="row">
+		
+		<div class="col-md-6 col-md-offset-3">
+			
+			<div class="panel panel-default">
+				
+				<div class="panel-heading">Create class</div>
+
+				<div class="panel-body">
+					
+					<form action="{{ path_for("class.create") }}" method="POST">
+
+						<div class="form-group {{ errors.name ? 'has-error' : '' }}">
+							
+							<label for="name">Class name</label>
+							<input class="form-control" type="text" name="name" id="name" placeholder="Name" value="{{ oldInput.name }}">
+
+							{% if errors.name %}
+								<span class="help-block">
+									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+
+									{{ errors.name | first }}
+								</span>
+							{% endif %}
+
+						</div>
+
+						<div class="form-group">
+							
+							<label for="fun">Accessibility</label>
+			    			<div class="input-group">
+			    				<div id="radioBtn" class="btn-group">
+
+									{% for accessibility in accessabilities %}
+
+										{% set index = oldInput.accessibility is defined ? oldInput.accessibility : 1 %}
+
+										{% set active = loop.index == index ? "active" : "notActive" %}
+
+										<a class="btn btn-primary btn-sm {{ active }}" data-toggle="accessibility" data-value="{{ accessibility.id }}" data-title="{{ accessibility.name }}">{{ accessibility.name }}</a>
+
+									{% endfor %}
+			    				</div>
+			    				<input type="hidden" name="accessibility" id="accessibility" value="{{ oldInput.accessibility is defined ? oldInput.accessibility : 1 }}">
+			    			</div>
+
+						</div>
+
+						{% set displayPass = oldInput.accessibility == 2 ? "block" : "none" %}
+
+						<div id="password_form-group" class="form-group {{ errors.password ? 'has-error' : '' }}" style="display:{{ displayPass }}">
+							
+							<label for="password">Password</label>
+							<input class="form-control" type="password" name="password" id="password" placeholder="Password" value="{{ oldInput.password }}">
+
+							{% if errors.password %}
+								<span class="help-block">
+									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+
+									{{ errors.password | first }}
+								</span>
+							{% endif %}
+
+						</div>
+
+						<button class="btn btn-default" type="submit">Create!</button>
+
+						{{ csrfInputs | raw }}
+
+					</form>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+{% endblock %}
+
+{% block scriptImports %}
+
+	{% include "class/js/create.js.twig" %}
+
+{% endblock %}

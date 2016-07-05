@@ -1,0 +1,14 @@
+$('#radioBtn a').on('click', function(){
+    var sel = $(this).data('value');
+    var tit = $(this).data('title');
+    var tog = $(this).data('toggle');
+    $('#'+tog).prop('value', sel);
+    
+    $('a[data-toggle="'+tog+'"]').not('[data-title="'+tit+'"]').removeClass('active').addClass('notActive');
+    $('a[data-toggle="'+tog+'"][data-title="'+tit+'"]').removeClass('notActive').addClass('active');
+
+    if (tit.toLowerCase() !== "password")
+    	$("#password_form-group").hide();
+    else
+    	$("#password_form-group").show();
+});
