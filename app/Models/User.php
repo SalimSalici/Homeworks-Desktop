@@ -15,7 +15,8 @@ class User extends Model {
 		"surname",
 		"active",
 		"created_at",
-		"updated_at"
+		"updated_at",
+		"tag"
 	];
 
 	public function setPassword($password) {
