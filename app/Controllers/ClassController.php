@@ -37,7 +37,7 @@ class ClassController extends Controller {
 
 		}
 
-		$subjects = Subject::where("id_class", $classe->id)->get()->toArray();
+		$subjects = Classe::find($classe->id)->subjects->toArray();
 
 		$this->view->getEnvironment()
 			->addGlobal("subjects", $subjects);

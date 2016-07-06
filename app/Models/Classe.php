@@ -26,4 +26,8 @@ class Classe extends Model {
 
 	}
 
+	public function subjects() {
+        return $this->hasMany("App\Models\Subject", "id_class");
+    }
+
 }
