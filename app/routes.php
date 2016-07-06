@@ -10,9 +10,13 @@ $app->get("/user/{tag}", "UserProfileController:profile")->setName("user.profile
 $app->group("/class", function() {
 
 	$this->group("", function() {
+
+		$this->post("/day/add", "HomeworkController:addDay")->setName("class.addDay");
+
 		$this->get("/create", "ClassController:getCreateClass")->setName("class.create");
 
 		$this->post("/create", "ClassController:postCreateClass");
+
 	})->add(new AuthMiddleware($this->getContainer()));
 
 	$this->get("/page/{tag}", "ClassController:getClassPage")->setName("class.page");

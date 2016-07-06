@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Accessibility;
 use App\Models\Classe;
 use App\Models\UserClass;
+use App\Models\Subject;
 use Respect\Validation\Validator as v;
 
 class ClassController extends Controller {
@@ -35,6 +36,11 @@ class ClassController extends Controller {
 			}
 
 		}
+
+		$subjects = Subject::where("id_class", $classe->id)->get()->toArray();
+
+		$this->view->getEnvironment()
+			->addGlobal("subjects", $subjects);
 
 		$this->view->getEnvironment()
 			->addGlobal("info_userClass", $info_userClass);

@@ -9,11 +9,15 @@
 		border: none;
 	}
 
+	.selectpicker {
+		margin: 10px 0;
+	}
+
 </style>
 
 <div class="col-md-4">
 				
-	<form action="{{ path_for(homework.addDay) }}" method="POST">
+	<form action="{{ path_for('class.addDay') }}" method="POST">
 		<div class="panel panel-default">
 
 			<div class="panel-heading">
@@ -33,14 +37,23 @@
 			<div class="panel-body">
 
 				<div class="list-group">
-					<a class="list-group-item">
-						<h4 class="list-group-item-heading">Italiano</h4>
-						
-						<p class="list-group-item-text editable">Studiare da pag 94 a pag 102. Esercizi pag 103 n° 10 - 11 - 12</p>
-						<input type="hidden" name="subjectHomework[]">
-					</a>
+					
+					<!--<a class="list-group-item">
 
-					<a class="list-group-item">
+						<span class="pull-right close removeItem" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</span>
+
+						<select name="subjectName[]" class="selectpicker">
+							<option>Mustard</option>
+							<option>Ketchup</option>
+							<option>Relish</option>
+						</select>
+
+						<textarea name="subjectHomework[]" class="form-control"></textarea>
+					</a>-->
+
+					<a id="addItemList" class="list-group-item" style="cursor:pointer">
 						<h1 class="list-group-item-heading text-center"><span class="glyphicon glyphicon-plus"></span></h1>
 					</a>
 				</div>
@@ -50,20 +63,53 @@
 			</div>
 
 		</div>
+
+		{{ csrfInputs | raw }}
+
 	</form>
 
 </div>
 
-<div id="hiddenEditableContent" class="hidden">
-	<textarea name="subjectHomework[]" class="form-control"></textarea>
+<div id="hiddenItemListContainer" class="hidden">
+	
+	<a class="list-group-item">
+
+		<span class="pull-right close removeItem" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</span>
+
+		<select name="subjectId[]" class="selectpicker">
+			{% for subject in subjects %}
+				<option value="{{ subject.id }}">{{ subject.name }}</option>
+			{% endfor %}
+		</select>
+
+		<textarea name="subjectHomework[]" class="form-control"></textarea>
+	</a>
+
 </div>
 
 <script>
 	
-	var editableContent = $("#hiddenEditableContent").html();
+	$(".removeItem").click(function() {
+		$(this).parent().remove();
+	});
 
-	$(".editable").click(function() {
-		$(this).replaceWith(editableContent);
+	var itemList = $("#hiddenItemListContainer").html();
+
+	$("#addItemList").click(function() {
+
+		$(this).before(itemList);
+
+		$('.selectpicker').selectpicker({
+			style: 'btn-default selectpicker',
+			size: 4
+		});
+
+		$(".removeItem").click(function() {
+			$(this).parent().remove();
+		});
+
 	});
 
 </script>
@@ -93,5 +139,22 @@ $('.datepicker').on("changeDate", function() {
     $("#consignDateInfo").html(day + " " + month + " " + year);
 });
 
+$('.datepicker').datepicker("setDate", new Date());
+
 </script>
 
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+
+<script>
+	
+	$('.selectpicker').selectpicker({
+		style: 'btn-default selectpicker',
+		size: 4
+	});
+
+
+</script>

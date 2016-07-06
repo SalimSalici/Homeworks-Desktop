@@ -70,3 +70,7 @@ $container["ClassController"] = function($container) {
 $container["UserProfileController"] = function($container) {
     return new \App\Controllers\User\UserProfileController($container);
 };
+
+$container["HomeworkController"] = function($container) {
+    return new \App\Controllers\HomeworkController($container);
+};
