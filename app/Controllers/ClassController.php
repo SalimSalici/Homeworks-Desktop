@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\Accessibility;
 use App\Models\Classe;
-use App\Models\UserClass;
 use Respect\Validation\Validator as v;
 
 class ClassController extends Controller {
@@ -36,8 +35,6 @@ class ClassController extends Controller {
 			return $response->withRedirect($this->router->pathFor("class.create"));		
 		}
 
-		$userId = $this->auth->user()->id;
-
 		$columns = [
 			"name" => $request->getParam("name"),
 			"id_creator" => $this->auth->user()->id,
@@ -45,14 +42,13 @@ class ClassController extends Controller {
 		];
 
 		if ($accessibility == 2)
-			$columns["password"] = $request->getParam("password"); // TODO: hash password
+			$columns["password"] = $request->getParam("password");
 
-		$class = Classe::create($columns);
 
-		$userClass = UserClass::create([
-			"id_user" => $userId,
-			"id_class" => $class->id,
-			"admin" => 1
+		$class = Classe::create([
+			"name" => $request->getParam("name"),
+			"id_creator" => $this->auth->user()->id,
+			"id_accessibility" => $request->getParam("accessibility")
 		]);
 
 		$this->flash->addMessage("success", "Your class has been created.");

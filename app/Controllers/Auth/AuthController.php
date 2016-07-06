@@ -66,20 +66,14 @@ class AuthController extends Controller {
 		$surname = $request->getParam("surname");
 		$password = $request->getParam("password");
 
-		$tag = substr(preg_replace('/[0-9_\/]+/','',base64_encode(sha1(uniqid()))),0,11);
-
-		while (User::where("tag", $newTag)->first() != null)
-			$tag = substr(md5(uniqid()), 0, 11);
-
 		$user = User::create([
 			"email" => $email,
 			"name" => $name,
 			"surname" => $surname,
-			"password" => password_hash($password, PASSWORD_DEFAULT),
-			"tag" => $tag
+			"password" => password_hash($password, PASSWORD_DEFAULT)
 		]);
 
-		$this->flash->addMessage("success", "You have been signed up.");
+		$this->flash->addMessage("info", "You have been signed up.");
 
 		$auth = $this->auth->attempt(
 			$user->email,

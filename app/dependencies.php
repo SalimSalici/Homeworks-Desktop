@@ -66,7 +66,3 @@ $container["PasswordController"] = function($container) {
 $container["ClassController"] = function($container) {
     return new \App\Controllers\ClassController($container);
 };
-
-$container["UserProfileController"] = function($container) {
-    return new \App\Controllers\User\UserProfileController($container);
-};

@@ -5,7 +5,7 @@ use App\Middlewares\GuestMiddleware;
 
 $app->get("/", "HomeController:index")->setName("home");
 
-$app->get("/user/{tag}", "UserProfileController:profile")->setName("user.profile");
+
 
 $app->group("", function() {
 
