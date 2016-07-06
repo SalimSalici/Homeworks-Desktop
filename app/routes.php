@@ -7,6 +7,18 @@ $app->get("/", "HomeController:index")->setName("home");
 
 $app->get("/user/{tag}", "UserProfileController:profile")->setName("user.profile");
 
+$app->group("/class", function() {
+
+	$this->group("", function() {
+		$this->get("/create", "ClassController:getCreateClass")->setName("class.create");
+
+		$this->post("/create", "ClassController:postCreateClass");
+	})->add(new AuthMiddleware($this->getContainer()));
+
+	$this->get("/page/{tag}", "ClassController:getClassPage")->setName("class.page");
+
+});
+
 $app->group("", function() {
 
 	$this->get("/signup", "AuthController:getSignUp")->setName("auth.signup");
@@ -25,9 +37,5 @@ $app->group("", function() {
 		->setName("auth.password.change");
 
 	$this->post("/password/change", "PasswordController:postChangePassword");
-
-	$this->get("/class/create", "ClassController:getCreateClass")->setName("class.create");
-
-	$this->post("/class/create", "ClassController:postCreateClass");
 
 })->add(new AuthMiddleware($container));

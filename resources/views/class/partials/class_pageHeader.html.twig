@@ -1,0 +1,22 @@
+<div class="page-header">
+	<h1>
+		{{ class.name }}
+
+		{% if info_userClass.hasJoined == false %}
+			<small>
+				<a style="margin-left:5px" href="#" class="btn btn-primary btn-sm pull-right">
+					Join class
+				</a>
+			</small> 
+		{% endif %}
+
+		{% if isCreator == true %}
+			<small>
+				<a style="margin-left:5px" href="#" class="btn btn-primary btn-sm pull-right">
+					Edit name
+				</a>
+			</small>
+		{% endif %}
+
+	</h1>
+</div>

@@ -1,0 +1,67 @@
+{% extends "templates/app.html.twig" %}
+
+{% set isCreator = auth.user.id == class.id_creator %}
+
+{% block title %}Class name{% endblock %}
+
+{% block content %}
+
+	{% include "class/partials/class_pageHeader.html.twig" %}
+	
+	<div class="row">
+		
+		<div class="col-md-4">
+			
+			<div class="panel panel-default">
+				
+				<div class="panel-heading">
+					<b>Monday</b>
+					<span class="pull-right">07 Jun 2016</span>
+				</div>
+
+				<div class="panel-body">
+
+					<div class="list-group">
+						<span href="#" class="list-group-item list-group-item-warning">
+							<a class="badge">
+								<span class="glyphicon glyphicon-ok"></span>
+							</a>
+							<a class="badge">
+								<span class="glyphicon glyphicon-ok"></span>
+							</a>
+							<a class="badge">
+								<span class="glyphicon glyphicon-ok"></span>
+							</a>
+							<a class="badge">
+								<span class="glyphicon glyphicon-ok"></span>
+							</a>
+							<h4 class="list-group-item-heading">Italiano</h4>
+							<p class="list-group-item-text">Studiare da pag 94 a pag 102. Esercizi pag 103 n° 10 - 11 - 12</p>
+						</span>
+						<a href="#" class="list-group-item list-group-item-success">
+							<h4 class="list-group-item-heading">Italiano</h4>
+							<p class="list-group-item-text">Studiare da pag 94 a pag 102. Esercizi pag 103 n° 10 - 11 - 12</p>
+						</a>
+						<a href="#" class="list-group-item">
+							<h4 class="list-group-item-heading">Italiano</h4>
+							<p class="list-group-item-text">Studiare da pag 94 a pag 102. Esercizi pag 103 n° 10 - 11 - 12</p>
+						</a>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		{% if info_userClass.isAdmin %}
+
+			{% include "class/partials/class_adminDayForm.html.twig" %}
+
+		{% endif %}
+
+	</div>
+
+	{{ info_userClass | json_encode }}
+
+{% endblock %}

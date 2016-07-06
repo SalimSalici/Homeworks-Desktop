@@ -86,7 +86,7 @@
 
 			{% for class in userClasses %}
 
-				<a href="#">
+				<a href="{{ path_for("class.page", {"tag": class.tag}) }}">
 					<div class="col-md-4">
 						<div class="well well-sm">
 							<span>{{ class.name }}</span>

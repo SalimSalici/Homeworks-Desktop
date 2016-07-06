@@ -1,0 +1,97 @@
+<style>
+	
+	.nopadding {
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+
+	.editableInput[type="text"] {
+		border: none;
+	}
+
+</style>
+
+<div class="col-md-4">
+				
+	<form action="{{ path_for(homework.addDay) }}" method="POST">
+		<div class="panel panel-default">
+
+			<div class="panel-heading">
+				<b>New day</b>
+				<div class="pull-right">
+					<a id="asd" class="btn btn-default datepicker">
+						<span class="glyphicon glyphicon-calendar"></span>
+						<input type="hidden" name="consignDate" id="consignDate">
+					</a>
+					<span id="consignDateInfo" style="margin-left:10px">
+						07 Jun 2016
+					</span>
+				</div>
+				<div style="clear:both"></div>
+			</div>
+
+			<div class="panel-body">
+
+				<div class="list-group">
+					<a class="list-group-item">
+						<h4 class="list-group-item-heading">Italiano</h4>
+						
+						<p class="list-group-item-text editable">Studiare da pag 94 a pag 102. Esercizi pag 103 n° 10 - 11 - 12</p>
+						<input type="hidden" name="subjectHomework[]">
+					</a>
+
+					<a class="list-group-item">
+						<h1 class="list-group-item-heading text-center"><span class="glyphicon glyphicon-plus"></span></h1>
+					</a>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Add homeworks</button>
+
+			</div>
+
+		</div>
+	</form>
+
+</div>
+
+<div id="hiddenEditableContent" class="hidden">
+	<textarea name="subjectHomework[]" class="form-control"></textarea>
+</div>
+
+<script>
+	
+	var editableContent = $("#hiddenEditableContent").html();
+
+	$(".editable").click(function() {
+		$(this).replaceWith(editableContent);
+	});
+
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker3.standalone.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js"></script>
+
+<script>
+
+$('.datepicker').datepicker({
+	format: 'yyyy-mm-dd',
+    autoclose: true
+});
+
+var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Ago", "Sep", "Ott","Nov", "Dec"];
+
+$('.datepicker').on("changeDate", function() {
+	var date = $(this).datepicker('getFormattedDate');
+    $(this).find("#consignDate").val($(this).find("#consignDate").val());
+	
+	var datetime = $(this).datepicker("getDate");
+	console.log(datetime)
+	var day = datetime.getDate();
+	var month = months[datetime.getMonth()];
+	var year = datetime.getFullYear();
+    $("#consignDateInfo").html(day + " " + month + " " + year);
+});
+
+</script>
+
