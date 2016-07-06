@@ -14,7 +14,8 @@ class Classe extends Model {
 		"name",
 		"password",
 		"id_creator",
-		"id_accessibility"
+		"id_accessibility",
+		"tag"
 	];
 
 	public function setPassword($password) {

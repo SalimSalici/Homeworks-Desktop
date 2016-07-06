@@ -68,8 +68,8 @@ class AuthController extends Controller {
 
 		$tag = substr(preg_replace('/[0-9_\/]+/','',base64_encode(sha1(uniqid()))),0,11);
 
-		while (User::where("tag", $newTag)->first() != null)
-			$tag = substr(md5(uniqid()), 0, 11);
+		while (User::where("tag", $tag)->first() != null)
+			$tag = substr(preg_replace('/[0-9_\/]+/','',base64_encode(sha1(uniqid()))),0,11);
 
 		$user = User::create([
 			"email" => $email,

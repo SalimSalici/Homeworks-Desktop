@@ -9,8 +9,6 @@ class UserProfileController extends Controller {
 
 	public function profile($request, $response, $args) {
 
-		// $accessabilities = Accessibility::all()->sortBy("id")->toArray();
-
 		$profileOwner = User::where("tag", $args["tag"])->first();
 
 		$this->view->getEnvironment()

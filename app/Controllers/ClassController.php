@@ -38,10 +38,16 @@ class ClassController extends Controller {
 
 		$userId = $this->auth->user()->id;
 
+		$tag = substr(preg_replace('/[0-9_\/]+/','',base64_encode(sha1(uniqid()))),0,11);
+
+		while (Classe::where("tag", $tag)->first() != null)
+			$tag = substr(preg_replace('/[0-9_\/]+/','',base64_encode(sha1(uniqid()))),0,11);
+
 		$columns = [
 			"name" => $request->getParam("name"),
-			"id_creator" => $this->auth->user()->id,
-			"id_accessibility" => $request->getParam("accessibility")
+			"id_creator" => $userId,
+			"id_accessibility" => $request->getParam("accessibility"),
+			"tag" => $tag
 		];
 
 		if ($accessibility == 2)
