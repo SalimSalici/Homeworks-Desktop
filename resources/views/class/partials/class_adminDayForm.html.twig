@@ -14,62 +14,43 @@
 	}
 
 </style>
-
-<div class="col-md-4">
 				
-	<form action="{{ path_for('class.addDay') }}" method="POST">
-		<div class="panel panel-default">
+<form action="{{ path_for('class.addDay') }}" method="POST">
+	<div class="panel panel-default">
 
-			<div class="panel-heading">
-				<b>New day</b>
-				<div class="pull-right">
-					<a id="asd" class="btn btn-default datepicker">
-						<span class="glyphicon glyphicon-calendar"></span>
-						<input type="hidden" name="consignDate" id="consignDate">
-					</a>
-					<span id="consignDateInfo" style="margin-left:10px">
-						07 Jun 2016
-					</span>
-				</div>
-				<div style="clear:both"></div>
+		<div class="panel-heading">
+			<b>New day</b>
+			<div class="pull-right">
+				<a id="asd" class="btn btn-default datepicker">
+					<span class="glyphicon glyphicon-calendar"></span>
+					<input type="hidden" name="consignDate" id="consignDate">
+				</a>
+				<span id="consignDateInfo" style="margin-left:10px">
+					07 Jun 2016
+				</span>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+
+		<div class="panel-body">
+
+			<div class="list-group">
+
+				<a id="addItemList" class="list-group-item" style="cursor:pointer">
+					<h1 class="list-group-item-heading text-center"><span class="glyphicon glyphicon-plus"></span></h1>
+				</a>
 			</div>
 
-			<div class="panel-body">
-
-				<div class="list-group">
-					
-					<!--<a class="list-group-item">
-
-						<span class="pull-right close removeItem" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</span>
-
-						<select name="subjectName[]" class="selectpicker">
-							<option>Mustard</option>
-							<option>Ketchup</option>
-							<option>Relish</option>
-						</select>
-
-						<textarea name="subjectHomework[]" class="form-control"></textarea>
-					</a>-->
-
-					<a id="addItemList" class="list-group-item" style="cursor:pointer">
-						<h1 class="list-group-item-heading text-center"><span class="glyphicon glyphicon-plus"></span></h1>
-					</a>
-				</div>
-
-				<input type="hidden" name="classTag" value="{{ class.tag }}">
-				<button type="submit" class="btn btn-primary">Add homeworks</button>
-
-			</div>
+			<input type="hidden" name="classTag" value="{{ class.tag }}">
+			<button type="submit" class="btn btn-primary">Add homeworks</button>
 
 		</div>
 
-		{{ csrfInputs | raw }}
+	</div>
 
-	</form>
+	{{ csrfInputs | raw }}
 
-</div>
+</form>
 
 <div id="hiddenItemListContainer" class="hidden">
 	
@@ -85,7 +66,10 @@
 			{% endfor %}
 		</select>
 
-		<textarea name="subjectHomework[]" class="form-control"></textarea>
+		<textarea name="subjectHomework[]"
+			class="form-control"
+			placeholder="Description" 
+			style="margin-top:10px"></textarea>
 	</a>
 
 </div>
@@ -103,8 +87,8 @@
 		$(this).before(itemList);
 
 		$('.selectpicker').selectpicker({
-			style: 'btn-default selectpicker',
-			size: 4
+			style: 'btn-default',
+			size: 6
 		});
 
 		$(".removeItem").click(function() {

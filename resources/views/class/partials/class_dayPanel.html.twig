@@ -1,0 +1,33 @@
+<div class="panel panel-default">
+	
+	<div class="panel-heading">
+		<b>{{ day[0].consignDate | date("l") }}</b>
+		<span class="pull-right">
+			{{ day[0].consignDate | date("j") }}
+			{{ day[0].consignDate | date("F") | slice(0, 3) }}
+			{{ day[0].consignDate | date("Y") }}
+		</span>
+	</div>
+
+	<div class="panel-body">
+
+		<div class="list-group">
+
+			{% for homework in day %}
+				
+				<span href="#" class="list-group-item list-group-item-default">
+					<h4 class="list-group-item-heading">
+						{{ homework.subject }}
+					</h4>
+					<p class="list-group-item-text">
+						{{ homework.description }}
+					</p>
+				</span>
+
+			{% endfor %}
+
+		</div>
+
+	</div>
+
+</div>

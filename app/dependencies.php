@@ -74,3 +74,7 @@ $container["UserProfileController"] = function($container) {
 $container["HomeworkController"] = function($container) {
     return new \App\Controllers\HomeworkController($container);
 };
+
+$container["SubjectController"] = function($container) {
+    return new \App\Controllers\SubjectController($container);
+};

@@ -15,4 +15,8 @@ class Subject extends Model {
 		"id_class"
 	];
 
+	public function classe() {
+    	return $this->belongsTo("App\Models\Classe", "id_class");
+    }
+
 }

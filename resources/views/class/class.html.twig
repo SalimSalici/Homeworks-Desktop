@@ -4,15 +4,54 @@
 
 {% block title %}Class name{% endblock %}
 
+{% block styleImports %}
+
+	.masonry-container {
+		-moz-column-count: 2;
+	    -moz-column-gap: 20px;
+	    -webkit-column-count: 2;
+	    -webkit-column-gap: 20px;
+	    column-count: 3;
+	    column-gap: 20px;
+	}
+
+	.masonry-container > div {
+	    display: inline-block;
+	    width: 100%;
+	}
+
+	@media (max-width: 992px) {
+		.masonry-container {
+			-webkit-column-count: 1;
+			-moz-column-count: 1;
+			column-count: 1;
+		}
+	}
+
+{% endblock %}
+
 {% block content %}
 
 	{% include "class/partials/class_pageHeader.html.twig" %}
 	
+	{% if info_userClass.isAdmin %}
+
+		<div class="row">
+			<div class="col-md-6">
+				{% include "class/partials/class_adminDayForm.html.twig" %}
+			</div>
+			<div class="col-md-6">
+				{% include "class/partials/class_adminSubjectForm.html.twig" %}
+			</div>
+		</div>
+
+	{% endif %}
+
 	<div class="row">
-		
-		<div class="col-md-4">
-			
-			<div class="panel panel-default">
+
+		<div class="col-md-12 masonry-container">
+				
+			<!--<div class="panel panel-default">
 				
 				<div class="panel-heading">
 					<b>Monday</b>
@@ -44,18 +83,26 @@
 
 				</div>
 
-			</div>
+			</div>-->
+
+			{% for day in homeworkDays %}
+
+				{% include "class/partials/class_dayPanel.html.twig" with day %}
+
+			{% endfor %}
+
+			
 
 		</div>
 
-		{% if info_userClass.isAdmin %}
-
-			{% include "class/partials/class_adminDayForm.html.twig" %}
-
-		{% endif %}
-
 	</div>
 
-	{{ subjects | json_encode }}
+	{% if homeworkDays is empty %}
+
+		<div class="alert alert-success">
+			There are no homeworks to do.
+		</div>				
+
+	{% endif %}
 
 {% endblock %}

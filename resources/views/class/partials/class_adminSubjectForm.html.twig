@@ -1,0 +1,104 @@
+<link rel="stylesheet" href="/dist/bootstrap-tagsinput/bootstrap-tagsinput.css">
+<script src="/dist/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+
+<div class="panel panel-default">
+
+	<div class="panel-heading">
+		<b>Subjects</b>
+	</div>
+
+	<div class="panel-body">
+
+		<div class="col-md-6">
+
+			<form action="{{ path_for('subject.addSubject') }}" method="POST">
+
+				<h4>
+					New
+					<small>
+						&nbsp;
+						<span class="glyphicon glyphicon-info-sign"
+						data-toggle="tooltip"
+						title="Use commas to add multiple subjects"></span>
+					</small>
+				</h4>
+
+				<div class="form-group">
+					<input name="subjects" data-role="tagsinput" placeholder="Subjects" 
+						type="text" class="form-control" />
+				</div>
+
+				<input name="classTag" type="hidden" value="{{ class.tag }}">
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary">
+						<span class="glyphicon glyphicon-plus"></span>
+						&nbsp;Add
+					</button>
+				</div>
+
+				{{ csrfInputs | raw }}
+
+			</form>
+
+		</div>
+		<div class="col-md-6">
+
+			<form action="{{ path_for('subject.removeSubject') }}" method="POST">
+
+				<h4>Remove</h4>
+
+				<div class="form-group">
+					<select name="subjects[]"
+						class="selectpickerRemoveSubject" multiple>
+
+						{% for subject in subjects %}
+							<option value="{{ subject.id }}">
+								{{ subject.name }}
+							</option>
+						{% endfor %}
+
+					</select>
+				</div>
+
+				<input name="classTag" type="hidden" value="{{ class.tag }}">
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-danger">
+						<span class="glyphicon glyphicon-remove"></span>
+						&nbsp;Remove
+					</button>
+				</div>
+
+				{{ csrfInputs | raw }}
+
+			</form>
+
+		</div>
+
+	</div>
+
+</div>
+
+</form>
+
+<script>
+
+	var isMobile = false;
+
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+		isMobile = true;
+	}
+	
+	$('.selectpickerRemoveSubject').selectpicker({
+		style: 'btn-default',
+		size: 4,
+		tickIcon: "glyphicon-remove",
+		mobile: isMobile
+	});
+
+	$(document).ready(function(){
+	    $('[data-toggle="tooltip"]').tooltip(); 
+	});
+
+</script>
