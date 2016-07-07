@@ -31,6 +31,10 @@ class Classe extends Model {
         return $this->hasMany("App\Models\Subject", "id_class");
     }
 
+    public function homeworks() {
+    	return $this->hasMany("App\Models\Homework", "id_class");
+    }
+
     public function hasAdmin($user) {
 
     	$where = [
