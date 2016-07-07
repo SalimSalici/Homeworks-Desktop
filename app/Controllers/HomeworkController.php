@@ -43,7 +43,7 @@ class HomeworkController extends Controller {
 
 		Homework::insert($rows);
 
-		$this->flash->addMessage("Success", "You added some homeworks.");
+		$this->flash->addMessage("success", "You added some homeworks.");
 			return $response
 				->withRedirect($this->router
 					->pathFor("class.page", ["tag" => $tag]));	
