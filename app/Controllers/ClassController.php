@@ -6,7 +6,11 @@ use App\Models\Accessibility;
 use App\Models\Classe;
 use App\Models\UserClass;
 use App\Models\Subject;
+use App\Models\Homework;
+
 use Respect\Validation\Validator as v;
+
+use App\Utils\ArrayUtil;
 
 class ClassController extends Controller {
 
@@ -37,10 +41,16 @@ class ClassController extends Controller {
 
 		}
 
+		$homeworks = Homework::getHomeworksByClass($classe)->get()->toArray();
+		$homeworkDays = ArrayUtil::arraySort($homeworks, "consignDate");
+
 		$subjects = Classe::find($classe->id)->subjects->toArray();
 
 		$this->view->getEnvironment()
 			->addGlobal("subjects", $subjects);
+
+		$this->view->getEnvironment()
+			->addGlobal("homeworkDays", $homeworkDays);
 
 		$this->view->getEnvironment()
 			->addGlobal("info_userClass", $info_userClass);
