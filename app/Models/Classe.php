@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\UserClass;
 
 class Classe extends Model {
 	
@@ -28,6 +29,21 @@ class Classe extends Model {
 
 	public function subjects() {
         return $this->hasMany("App\Models\Subject", "id_class");
+    }
+
+    public function hasAdmin($user) {
+
+    	$where = [
+    		"id_class" => $this->id,
+    		"id_user" => $user->id
+    	];
+
+    	$userClass = UserClass::where($where)->first();
+
+    	if ($userClass === null) return false;
+
+    	return $userClass->admin === 1 ? true : false;
+
     }
 
 }
