@@ -4,6 +4,7 @@ $settings = [
 
 	"settings" => [
 
+		'determineRouteBeforeAppMiddleware' => true,
 		"displayErrorDetails" => true,
 		"db" => [
 			"driver" => "mysql",
