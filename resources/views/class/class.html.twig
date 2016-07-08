@@ -28,6 +28,21 @@
 		}
 	}
 
+	.show-badge-on-hover .badge {
+		display: none;
+	}
+
+	.show-badge-on-hover:hover .badge {
+		display: block;
+	}
+
+	.btn.badge {
+		border: none;
+	}
+	.btn.badge:focus {
+		outline: none;
+	}
+
 {% endblock %}
 
 {% block content %}
@@ -105,4 +120,53 @@
 
 	{% endif %}
 
+	<script>
+	
+		$("[data-form=ajax]").submit(function(ev) {
+
+			ev.preventDefault();
+
+			$.ajax({
+
+				type: "POST",
+				url: "{{ path_for('homework.removeHomework.ajax') }}",
+				data: $(this).serialize(),
+				dataType: "json",
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('X-My-Custom-Header-Name', '42');
+				},
+
+				elemToRemove: $(this).parent(),
+
+				success: function(response) {
+					
+					if (response.status !== 201)
+						alert("Error homework.removeHomework.ajax");
+
+					var leftHomeworks = $(this.elemToRemove).parent().children("[data-title=homeworkPanel]").size();
+
+					if (leftHomeworks === 1) {
+						var dayPanel = $(this.elemToRemove).closest("[data-title=dayPanel]");
+						dayPanel.remove();
+					}
+
+					$(this.elemToRemove).remove();
+
+				}
+
+
+			});
+
+		});
+
+	</script>
+
+
 {% endblock %}
+
+{% block scriptImports %}
+
+{# TODO: add script here #}
+
+{% endblock %}
+

@@ -44,9 +44,72 @@ class HomeworkController extends Controller {
 		Homework::insert($rows);
 
 		$this->flash->addMessage("success", "You added some homeworks.");
+		return $response
+			->withRedirect($this->router
+				->pathFor("class.page", ["tag" => $tag]));	
+	}
+
+	public function removeHomework($request, $response) {
+
+		$tag = $_POST["classTag"];
+
+		$class = Classe::where("tag", $tag)->first();
+
+		$isAdmin = $class->hasAdmin($this->auth->user());
+
+		if (!$isAdmin) {
+			$this->flash->addMessage("error", "You cannot remove homeworks in this class.");
 			return $response
 				->withRedirect($this->router
 					->pathFor("class.page", ["tag" => $tag]));	
+		}
+
+		$homeworkId = $_POST["homeworkId"];
+		Homework::destroy([$homeworkId]);
+		
+		$this->flash->addMessage("success", "You removed some homeworks.");
+		return $response
+			->withRedirect($this->router
+				->pathFor("class.page", ["tag" => $tag]));	
+
+	}
+
+	public function removeHomeworkAjax($request, $response) {
+
+		$response = $response->withHeader('Content-type', 'application/json');
+
+		$tag = $_POST["classTag"];
+
+		$class = Classe::where("tag", $tag)->first();
+
+		$isAdmin = $class->hasAdmin($this->auth->user());
+
+		if (!$isAdmin) {
+			$this->flash->addMessage("error", "You cannot remove homeworks in this class.");
+			return $response
+				->withRedirect($this->router
+					->pathFor("class.page", ["tag" => $tag]));	
+		}
+
+		$homeworkId = $_POST["homeworkId"];
+		Homework::destroy([$homeworkId]);
+
+		$nameKey = $this->container->csrf->getTokenNameKey();
+	    $valueKey = $this->container->csrf->getTokenValueKey();
+	    $name = $request->getAttribute($nameKey);
+	    $value = $request->getAttribute($valueKey);
+
+		$jsonObj = [
+			"status" => 201,
+			"message" => "You removed some homeworks."
+		];
+
+		$jsonObj = json_encode($jsonObj);
+
+		$response = $response->withStatus(201);
+
+		return $response->write($jsonObj);
+
 	}
 
 }

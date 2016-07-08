@@ -13,6 +13,12 @@ $app->group("/class", function() {
 
 		$this->post("/day/add", "HomeworkController:addDay")->setName("class.addDay");
 
+		$this->post("/homework/remove", "HomeworkController:removeHomework")
+			->setName("homework.removeHomework");
+
+		$this->post("/homework/remove/ajax", "HomeworkController:removeHomeworkAjax")
+			->setName("homework.removeHomework.ajax");
+
 		$this->post("/subject/add", "SubjectController:addSubject")->setName("subject.addSubject");
 
 		$this->post("/subject/remove", "SubjectController:removeSubject")->setName("subject.removeSubject");

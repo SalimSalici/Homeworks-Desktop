@@ -27,7 +27,7 @@ class Homework extends Model {
 
     public static function getHomeworksByClass($class) {
 
-    	$homeworks = self::select("homeworks.description", "subjects.name as subject", "homeworks.consignDate")
+    	$homeworks = self::select("homeworks.id", "homeworks.description", "subjects.name as subject", "homeworks.consignDate")
     		->join("subjects", "subjects.id", "=", "homeworks.id_subject")
     		->where("homeworks.id_class", $class->id)
     		->orderBy("consignDate");

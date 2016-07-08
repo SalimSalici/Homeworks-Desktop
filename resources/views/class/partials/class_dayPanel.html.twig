@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div data-title="dayPanel" class="panel panel-default">
 	
 	<div class="panel-heading">
 		<b>{{ day[0].consignDate | date("l") }}</b>
@@ -15,7 +15,18 @@
 
 			{% for homework in day %}
 				
-				<span href="#" class="list-group-item list-group-item-default">
+				<span data-title="homeworkPanel" class="list-group-item list-group-item-default show-badge-on-hover">
+					{% if info_userClass.isAdmin %}
+						<form data-form="ajax" action="{{ path_for('homework.removeHomework') }}" method="POST" class="pull-right">
+							<input name="homeworkId" type="hidden" value="{{ homework.id }}">
+							<input name="classTag" type="hidden" value="{{ class.tag }}">
+							<button class="badge btn btn-danger btn-sm">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+							{{ csrfInputs | raw }}
+						</form>
+					{% endif %}
+
 					<h4 class="list-group-item-heading">
 						{{ homework.subject }}
 					</h4>
@@ -31,3 +42,4 @@
 	</div>
 
 </div>
+
