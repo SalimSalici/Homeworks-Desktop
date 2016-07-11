@@ -29,10 +29,12 @@ class SubjectController extends Controller {
 		$rows = [];
 
 		foreach ($subjects as $key => $subject) {
-			$rows[] = [
-				"name" => trim($subject),
-				"id_class" => $class->id
-			];
+			$subject = trim($subject);
+			if ($subject !== "")
+				$rows[] = [
+					"name" => trim($subject),
+					"id_class" => $class->id
+				];
 		}
 
 		try {
