@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Homework;
 use App\Models\Classe;
+use App\Models\Completed;
 
 class HomeworkController extends Controller {
 
@@ -49,31 +50,6 @@ class HomeworkController extends Controller {
 				->pathFor("class.page", ["tag" => $tag]));	
 	}
 
-	public function removeHomework($request, $response) {
-
-		$tag = $_POST["classTag"];
-
-		$class = Classe::where("tag", $tag)->first();
-
-		$isAdmin = $class->hasAdmin($this->auth->user());
-
-		if (!$isAdmin) {
-			$this->flash->addMessage("error", "You cannot remove homeworks in this class.");
-			return $response
-				->withRedirect($this->router
-					->pathFor("class.page", ["tag" => $tag]));	
-		}
-
-		$homeworkId = $_POST["homeworkId"];
-		Homework::destroy([$homeworkId]);
-		
-		$this->flash->addMessage("success", "You removed some homeworks.");
-		return $response
-			->withRedirect($this->router
-				->pathFor("class.page", ["tag" => $tag]));	
-
-	}
-
 	public function removeHomeworkAjax($request, $response) {
 
 		$response = $response->withHeader('Content-type', 'application/json');
@@ -94,11 +70,6 @@ class HomeworkController extends Controller {
 		$homeworkId = $_POST["homeworkId"];
 		Homework::destroy([$homeworkId]);
 
-		$nameKey = $this->container->csrf->getTokenNameKey();
-	    $valueKey = $this->container->csrf->getTokenValueKey();
-	    $name = $request->getAttribute($nameKey);
-	    $value = $request->getAttribute($valueKey);
-
 		$jsonObj = [
 			"status" => 201,
 			"message" => "You removed some homeworks."
@@ -112,4 +83,109 @@ class HomeworkController extends Controller {
 
 	}
 
+	public function completeHomeworkAjax($request, $response) {
+
+		$response = $response->withHeader('Content-type', 'application/json');
+
+		$tag = $_POST["classTag"];
+
+		$class = Classe::where("tag", $tag)->first();
+		$user = $this->auth->user();
+
+		$isMember = $class->hasMember($this->auth->user());
+
+		if (!$isMember) {
+			$this->flash->addMessage("error", "You are not a member of this class.");
+			return $response
+				->withRedirect($this->router
+					->pathFor("class.page", ["tag" => $tag]));	
+		}
+
+		$homeworkId = $_POST["homeworkId"];
+
+		Completed::create([
+			"id_user" => $user->id,
+			"id_homework" => $homeworkId
+		]);
+
+		$jsonObj = [
+			"status" => 201,
+			"message" => "You completed some homeworks."
+		];
+
+		$jsonObj = json_encode($jsonObj);
+
+		$response = $response->withStatus(201);
+
+		return $response->write($jsonObj);
+
+	}
+
+	public function uncompleteHomeworkAjax($request, $response) {
+
+		$response = $response->withHeader('Content-type', 'application/json');
+
+		$tag = $_POST["classTag"];
+
+		$class = Classe::where("tag", $tag)->first();
+		$user = $this->auth->user();
+
+		$isMember = $class->hasMember($this->auth->user());
+
+		if (!$isMember) {
+			$this->flash->addMessage("error", "You are not a member of this class.");
+			return $response
+				->withRedirect($this->router
+					->pathFor("class.page", ["tag" => $tag]));	
+		}
+
+		$homeworkId = $_POST["homeworkId"];
+
+		Completed::where([
+			"id_user" => $user->id,
+			"id_homework" => $homeworkId
+		])->delete();
+
+		$jsonObj = [
+			"status" => 201,
+			"message" => "You uncompleted some homeworks."
+		];
+
+		$jsonObj = json_encode($jsonObj);
+
+		$response = $response->withStatus(201);
+
+		return $response->write($jsonObj);
+
+	}
+
 }
+
+/* TRASH
+
+public function removeHomework($request, $response) {
+
+	$tag = $_POST["classTag"];
+
+	$class = Classe::where("tag", $tag)->first();
+
+	$isAdmin = $class->hasAdmin($this->auth->user());
+
+	if (!$isAdmin) {
+		$this->flash->addMessage("error", "You cannot remove homeworks in this class.");
+		return $response
+			->withRedirect($this->router
+				->pathFor("class.page", ["tag" => $tag]));	
+	}
+
+	$homeworkId = $_POST["homeworkId"];
+	Homework::destroy([$homeworkId]);
+	
+	$this->flash->addMessage("success", "You removed some homeworks.");
+	return $response
+		->withRedirect($this->router
+			->pathFor("class.page", ["tag" => $tag]));	
+
+}
+
+*/

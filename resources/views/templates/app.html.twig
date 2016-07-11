@@ -27,11 +27,17 @@
 
 	{% endblock %}
 
+	{% block jsImports %}
+
+		<script src="/js/app.js"></script>
+
+	{% endblock %}
+
 	<style>
 		
 		body {
 			padding-top: {% block paddingTop %}80{% endblock %}px;
-		} /**/
+		}
 
 		{% block styleImports %}{% endblock %}
 
@@ -55,8 +61,6 @@
 	</div>	
 
 	{% include "templates/partials/footer.html.twig" %}
-
-	{% block jsImports %}{% endblock %}
 
 	<script type="text/javascript">
 

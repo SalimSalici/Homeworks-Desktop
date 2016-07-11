@@ -122,19 +122,20 @@
 
 	<script>
 	
-		$("[data-form=ajax]").submit(function(ev) {
+		$("[data-form=removeHomework-ajax]").click(function(ev) {
 
 			ev.preventDefault();
+
+			var data = "homeworkId=" + $(this).attr("data-homework-id");
+			data += "&";
+			data += "classTag=" + $(this).attr("data-class-tag");
 
 			$.ajax({
 
 				type: "POST",
 				url: "{{ path_for('homework.removeHomework.ajax') }}",
-				data: $(this).serialize(),
+				data: data,
 				dataType: "json",
-				beforeSend: function (xhr) {
-					xhr.setRequestHeader('X-My-Custom-Header-Name', '42');
-				},
 
 				elemToRemove: $(this).parent(),
 
@@ -159,6 +160,86 @@
 
 		});
 
+		$("[data-form=completeHomework-ajax]").click(function(ev) {
+
+			ev.preventDefault();
+
+			var data = "homeworkId=" + $(this).attr("data-homework-id");
+			data += "&";
+			data += "classTag=" + $(this).attr("data-class-tag");
+
+			$.ajax({
+
+				type: "POST",
+				url: "{{ path_for('homework.completeHomework.ajax') }}",
+				data: data,
+				dataType: "json",
+
+				elemToComplete: $(this).parent(),
+				badge: $(this),
+
+				success: function(response) {
+					
+					if (response.status !== 201)
+						alert("Error homework.completeHomework.ajax");
+
+					$(this.elemToComplete).removeClass("list-group-item-default list-group-item-danger");
+
+					$(this.elemToComplete).addClass("list-group-item-success");
+
+					this.badge.hide();
+
+					this.badge.siblings("[data-form=uncompleteHomework-ajax]").css({
+						"display": ""
+					});
+
+				}
+
+
+			});
+
+		});
+
+		$("[data-form=uncompleteHomework-ajax]").click(function(ev) {
+
+			ev.preventDefault();
+
+			var data = "homeworkId=" + $(this).attr("data-homework-id");
+			data += "&";
+			data += "classTag=" + $(this).attr("data-class-tag");
+
+			$.ajax({
+
+				type: "POST",
+				url: "{{ path_for('homework.uncompleteHomework.ajax') }}",
+				data: data,
+				dataType: "json",
+
+				elemToComplete: $(this).parent(),
+				badge: $(this),
+
+				success: function(response) {
+					
+					if (response.status !== 201)
+						alert("Error homework.uncompleteHomework.ajax");
+
+					$(this.elemToComplete).removeClass("list-group-item-success");
+
+					$(this.elemToComplete).addClass("list-group-item-default");
+
+					this.badge.hide();
+
+					this.badge.siblings("[data-form=completeHomework-ajax]").css({
+						"display": ""
+					});
+
+				}
+
+
+			});
+
+		});
+
 	</script>
 
 
@@ -166,7 +247,6 @@
 
 {% block scriptImports %}
 
-{# TODO: add script here #}
+{# TODO: add above script here #}
 
 {% endblock %}
-

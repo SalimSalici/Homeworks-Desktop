@@ -50,4 +50,17 @@ class Classe extends Model {
 
     }
 
+    public function hasMember($user) {
+
+    	$where = [
+    		"id_class" => $this->id,
+    		"id_user" => $user->id
+    	];
+
+    	$userClass = UserClass::where($where)->first();
+
+    	return $userClass === null ? false : true;
+
+    }
+
 }

@@ -25,6 +25,10 @@ class Homework extends Model {
     	return $this->belongsTo("App\Models\Subject", "id_subject");
     }
 
+    public function completed() {
+        return $this->hasMany("App\Models\Completed", "id_homework");
+    }
+
     public static function getHomeworksByClass($class) {
 
     	$homeworks = self::select("homeworks.id", "homeworks.description", "subjects.name as subject", "homeworks.consignDate")

@@ -13,12 +13,6 @@ $app->group("/class", function() {
 
 		$this->post("/day/add", "HomeworkController:addDay")->setName("class.addDay");
 
-		$this->post("/homework/remove", "HomeworkController:removeHomework")
-			->setName("homework.removeHomework");
-
-		$this->post("/homework/remove/ajax", "HomeworkController:removeHomeworkAjax")
-			->setName("homework.removeHomework.ajax");
-
 		$this->post("/subject/add", "SubjectController:addSubject")->setName("subject.addSubject");
 
 		$this->post("/subject/remove", "SubjectController:removeSubject")->setName("subject.removeSubject");
@@ -53,3 +47,17 @@ $app->group("", function() {
 	$this->post("/password/change", "PasswordController:postChangePassword");
 
 })->add(new AuthMiddleware($container));
+
+// Ajax
+$app->group("", function() {
+
+	$this->post("/homework/remove/ajax", "HomeworkController:removeHomeworkAjax")
+		->setName("homework.removeHomework.ajax");
+
+	$this->post("/homework/complete/ajax", "HomeworkController:completeHomeworkAjax")
+		->setName("homework.completeHomework.ajax");
+
+	$this->post("/homework/uncomplete/ajax", "HomeworkController:uncompleteHomeworkAjax")
+		->setName("homework.uncompleteHomework.ajax");
+
+});

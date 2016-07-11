@@ -7,6 +7,7 @@ use App\Models\Classe;
 use App\Models\UserClass;
 use App\Models\Subject;
 use App\Models\Homework;
+use App\Models\Completed;
 
 use Respect\Validation\Validator as v;
 
@@ -41,10 +42,17 @@ class ClassController extends Controller {
 
 		}
 
+		$completedHomeworks = Completed::getCompletedByClassAndUser($classe, $this->auth->user())
+			->get()->toArray();
+		$completedHomeworks = ArrayUtil::arrayObjectToNumericSelect($completedHomeworks, "id_homework");
+
 		$homeworks = Homework::getHomeworksByClass($classe)->get()->toArray();
 		$homeworkDays = ArrayUtil::arraySort($homeworks, "consignDate");
 
 		$subjects = Classe::find($classe->id)->subjects->toArray();
+
+		$this->view->getEnvironment()
+			->addGlobal("completedHomeworks", $completedHomeworks);
 
 		$this->view->getEnvironment()
 			->addGlobal("subjects", $subjects);

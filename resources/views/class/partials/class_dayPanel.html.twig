@@ -14,18 +14,37 @@
 		<div class="list-group">
 
 			{% for homework in day %}
+
+				{% set completed = (homework.id in completedHomeworks) ? true : false %}
 				
-				<span data-title="homeworkPanel" class="list-group-item list-group-item-default show-badge-on-hover">
+				<span data-title="homeworkPanel" class="list-group-item list-group-item-{{ completed ? 'success' : 'default' }} show-badge-on-hover">
+
 					{% if info_userClass.isAdmin %}
-						<form data-form="ajax" action="{{ path_for('homework.removeHomework') }}" method="POST" class="pull-right">
-							<input name="homeworkId" type="hidden" value="{{ homework.id }}">
-							<input name="classTag" type="hidden" value="{{ class.tag }}">
-							<button class="badge btn btn-danger btn-sm">
-								<span class="glyphicon glyphicon-trash"></span>
-							</button>
-							{{ csrfInputs | raw }}
-						</form>
+
+						<a data-form="removeHomework-ajax"
+							class="badge"
+							data-homework-id="{{ homework.id }}"
+							data-class-tag="{{ class.tag }}">
+							<span class="glyphicon glyphicon-trash"></span>
+						</a>
+
 					{% endif %}
+
+					<a data-form="completeHomework-ajax"
+						class="badge"
+						style="display:{{ completed ? 'none' : 'auto' }}"
+						data-homework-id="{{ homework.id }}"
+						data-class-tag="{{ class.tag }}">
+						<span class="glyphicon glyphicon-ok"></span>
+					</a>
+
+					<a data-form="uncompleteHomework-ajax"
+						class="badge"
+						style="display:{{ completed ? 'auto' : 'none' }}"
+						data-homework-id="{{ homework.id }}"
+						data-class-tag="{{ class.tag }}">
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
 
 					<h4 class="list-group-item-heading">
 						{{ homework.subject }}
