@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
-use App\Models\Classe;
+use App\Models\UserClass;
 
 class HomeController extends Controller {
 
@@ -11,10 +11,9 @@ class HomeController extends Controller {
 
 		if ($this->auth->check()) {
 
-			$userId = $this->auth->user()->id;
+			$user = $this->auth->user();
 
-			$userClasses = Classe::where("id_creator", $userId)
-				->get()->sortBy("name")->toArray();
+			$userClasses = $user->classes->sortBy("name")->toArray();
 
 			$this->view->getEnvironment()
 				->addGlobal("userClasses", $userClasses);
