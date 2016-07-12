@@ -33,7 +33,7 @@ class AjaxCsrfMiddleware extends Middleware {
 
 		// If current route name is not in whitelist
 		$route = $request->getAttribute('route')->getName();
-		if (!in_array($route, $this->whitelist))
+		if (in_array($route, $this->whitelist))
 			return $next($request, $response);
 
 		if (in_array($request->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {

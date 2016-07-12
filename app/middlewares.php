@@ -13,7 +13,10 @@ $app->add(new \App\Middlewares\FlashMiddleware($container));
 $ajaxCsrfWhitelist = [
 	"homework.removeHomework",
 	"subject.addSubject",
+	"subject.removeSubject",
 	"class.create",
+	"class.addDay",
+	"class.join",
 	"auth.signup",
 	"auth.signup",
 	"auth.signin",

@@ -4,19 +4,67 @@
 
 		{% if info_userClass.hasJoined == false %}
 			<small>
-				<a style="margin-left:5px" href="#" class="btn btn-primary btn-sm pull-right">
+				<form action="{{ path_for('class.join') }}" method="POST"
+				data-form="joinClass"
+				style="display:inline-block" class="pull-right">
+				<input type="hidden" name="tag" value="{{ class.tag }}">
+				<input type="hidden" name="password" value="">
+				<button style="margin-left:5px" class="btn btn-primary btn-sm">
 					Join class
-				</a>
-			</small> 
-		{% endif %}
+				</button>
+				{{ csrfInputs | raw }}
+			</form>
+		</small>
+	{% endif %}
 
-		{% if isCreator == true %}
-			<small>
-				<a style="margin-left:5px" href="#" class="btn btn-primary btn-sm pull-right">
-					Edit name
-				</a>
-			</small>
-		{% endif %}
+	{% if isCreator == true %}
+		<small>
+			<a style="margin-left:5px" href="#" class="btn btn-primary btn-sm pull-right">
+				Edit name
+			</a>
+		</small>
+	{% endif %}
 
-	</h1>
+</h1>
 </div>
+
+<script>
+	
+	$("[data-form=joinClass]").click(function(ev) {
+
+		var isOpen = {{ class.id_accessibility == 1 ? "true" : "false" }}		
+
+		// TODO: test this
+		if (isOpen)
+			return;
+
+		var form = $(this);
+		var passwordInput = form.find("[name=password]");
+
+		ev.preventDefault();
+
+		swal({
+			title: "Password",
+			type: "input",
+			showCancelButton: true,
+			closeOnConfirm: false,
+			animation: "slide-from-top",
+			inputPlaceholder: "Password",
+			closeOnConfirm: false,
+			showLoaderOnConfirm: true,
+			sadasdasd: "lol"},
+
+			function(inputValue) {
+				if (inputValue === false) return false;
+				if (inputValue === "") {
+					swal.showInputError("You need to write something!");
+					return false
+				}
+				passwordInput.val(inputValue);
+				form.submit();
+			}
+		);
+
+	});
+
+</script>

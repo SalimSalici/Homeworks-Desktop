@@ -27,4 +27,8 @@ class User extends Model {
 
 	}
 
+	public function classes() {
+		return $this->belongsToMany('App\Models\Classe', "user_class", "id_user", "id_class");
+	}
+
 }

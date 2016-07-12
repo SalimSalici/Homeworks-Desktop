@@ -126,4 +126,55 @@ class ClassController extends Controller {
 		return $response->withRedirect($this->router->pathFor("home"));
 	}
 
+	public function joinClass($request, $response) {
+
+		$tag = $_POST["tag"];
+
+		$class = Classe::where("tag", $tag)->first();
+
+		$user = $this->auth->user();
+
+		if ($class->id_accessibility === 1) {
+			UserClass::create([
+				"id_user" => $user->id,
+				"id_class" => $class->id
+			]);
+		}
+
+		else if ($class->id_accessibility === 2) {
+			if (!isset($_POST["password"])) {
+				$this->flash
+					->addMessage("error", "You can't join the class. Try again");
+
+				return $response
+					->withRedirect($this->router
+						->pathFor("class.page", ["tag" => $tag]));
+			}
+
+			$password = $_POST["password"];
+
+			if ($class->password !== $password) {
+				$this->flash
+					->addMessage("error", "The password you type is not correct.");
+
+				return $response
+					->withRedirect($this->router
+						->pathFor("class.page", ["tag" => $tag]));
+			}
+
+			UserClass::create([
+				"id_user" => $user->id,
+				"id_class" => $class->id
+			]);
+
+		}
+
+		$this->flash->addMessage("success", "Your joined the class.");
+
+		return $response
+			->withRedirect($this->router
+				->pathFor("class.page", ["tag" => $tag]));	
+
+	}
+
 }
