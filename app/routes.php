@@ -19,7 +19,11 @@ $app->group("/class", function() {
 
 		$this->get("/create", "ClassController:getCreateClass")->setName("class.create");
 
-		$this->post("/create", "ClassController:postCreateClass");
+		$this->post("/create", "ClassController:postCreateClass")
+			->setName("class.create");
+
+		$this->post("/join", "ClassController:joinClass")
+			->setName("class.join");
 
 	})->add(new AuthMiddleware($this->getContainer()));
 
@@ -30,10 +34,10 @@ $app->group("/class", function() {
 $app->group("", function() {
 
 	$this->get("/signup", "AuthController:getSignUp")->setName("auth.signup");
-	$this->post("/signup", "AuthController:postSignUp");
+	$this->post("/signup", "AuthController:postSignUp")->setName("auth.signup");
 
 	$this->get("/signin", "AuthController:getSignIn")->setName("auth.signin");
-	$this->post("/signin", "AuthController:postSignIn");
+	$this->post("/signin", "AuthController:postSignIn")->setName("auth.signin");
 	
 })->add(new GuestMiddleware($container));
 
@@ -44,7 +48,8 @@ $app->group("", function() {
 	$this->get("/password/change", "PasswordController:getChangePassword")
 		->setName("auth.password.change");
 
-	$this->post("/password/change", "PasswordController:postChangePassword");
+	$this->post("/password/change", "PasswordController:postChangePassword")
+		->setName("auth.password.change");;
 
 })->add(new AuthMiddleware($container));
 
